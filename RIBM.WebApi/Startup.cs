@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using RIBM.WebApi.Models;
-
+using System.IO;
 
 namespace RIBM.WebApi
 {
@@ -24,9 +24,10 @@ namespace RIBM.WebApi
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
+
             Configuration = builder.Build();
         }
-        
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -34,6 +35,7 @@ namespace RIBM.WebApi
             services.AddMvc();
             services.AddSingleton(Configuration);
             services.AddDbContext<RIBusinessManagementContext>(options => options.UseSqlServer(Configuration.GetConnectionString("RIBMConStr")));
+            services.Configure<IISOptions>(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +52,8 @@ namespace RIBM.WebApi
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+            
+            app.UseCors(builder => builder.AllowAnyHeader());
 
             app.UseStaticFiles();
 

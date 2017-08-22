@@ -19,7 +19,7 @@ namespace RIBM.WebApi
                 .UseStartup<Startup>()
                 .UseApplicationInsights()
                 .Build();
-
+            
             host.Run();
         }
     }
