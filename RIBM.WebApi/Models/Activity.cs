@@ -23,11 +23,11 @@ namespace RIBM.WebApi.Models
         public int? UpdateUserId { get; set; }
         public DateTime? UpdateDate { get; set; }
 
-        public virtual ICollection<ActivityPermission> ActivityPermission { get; set; }
-        public virtual ICollection<RolePermission> RolePermission { get; set; }
-        public virtual ICollection<UserPermission> UserPermission { get; set; }
-        public virtual Users EntryUser { get; set; }
-        public virtual Module Module { get; set; }
-        public virtual Users UpdateUser { get; set; }
+        public Users EntryUser { get; set; }
+        public Module Module { get; set; }
+        public Users UpdateUser { get; set; }
+        public ICollection<ActivityPermission> ActivityPermission { get; set; }
+        public ICollection<RolePermission> RolePermission { get; set; }
+        public ICollection<UserPermission> UserPermission { get; set; }
     }
 }

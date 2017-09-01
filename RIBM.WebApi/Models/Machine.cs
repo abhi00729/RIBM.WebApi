@@ -35,9 +35,9 @@ namespace RIBM.WebApi.Models
         public int? UpdateUserId { get; set; }
         public DateTime? UpdateDate { get; set; }
 
-        public virtual ICollection<MachineAssignment> MachineAssignment { get; set; }
-        public virtual Users EntryUser { get; set; }
-        public virtual MachineType MachineType { get; set; }
-        public virtual Users UpdateUser { get; set; }
+        public Users EntryUser { get; set; }
+        public MachineType MachineType { get; set; }
+        public Users UpdateUser { get; set; }
+        public ICollection<MachineAssignment> MachineAssignment { get; set; }
     }
 }

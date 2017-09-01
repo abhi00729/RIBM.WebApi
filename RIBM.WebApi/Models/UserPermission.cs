@@ -15,11 +15,11 @@ namespace RIBM.WebApi.Models
         public int? UpdateUserId { get; set; }
         public DateTime? UpdateDate { get; set; }
 
-        public virtual Activity Activity { get; set; }
-        public virtual Users EntryUser { get; set; }
-        public virtual Permission Permission { get; set; }
-        public virtual PermissionType PermissionType { get; set; }
-        public virtual Users UpdateUser { get; set; }
-        public virtual Users User { get; set; }
+        public Activity Activity { get; set; }
+        public Users EntryUser { get; set; }
+        public Permission Permission { get; set; }
+        public PermissionType PermissionType { get; set; }
+        public Users UpdateUser { get; set; }
+        public Users User { get; set; }
     }
 }

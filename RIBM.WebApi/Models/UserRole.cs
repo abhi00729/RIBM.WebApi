@@ -13,9 +13,9 @@ namespace RIBM.WebApi.Models
         public int? UpdateUserId { get; set; }
         public DateTime? UpdateDate { get; set; }
 
-        public virtual Users EntryUser { get; set; }
-        public virtual Role Role { get; set; }
-        public virtual Users UpdateUser { get; set; }
-        public virtual Users User { get; set; }
+        public Users EntryUser { get; set; }
+        public Role Role { get; set; }
+        public Users UpdateUser { get; set; }
+        public Users User { get; set; }
     }
 }

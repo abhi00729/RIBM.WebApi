@@ -27,11 +27,11 @@ namespace RIBM.WebApi.Models
         public int? UpdateUserId { get; set; }
         public DateTime? UpdateDate { get; set; }
 
-        public virtual ICollection<MachineAssignment> MachineAssignment { get; set; }
-        public virtual City City { get; set; }
-        public virtual Client Client { get; set; }
-        public virtual Users EntryUser { get; set; }
-        public virtual State State { get; set; }
-        public virtual Users UpdateUser { get; set; }
+        public City City { get; set; }
+        public Client Client { get; set; }
+        public Users EntryUser { get; set; }
+        public State State { get; set; }
+        public Users UpdateUser { get; set; }
+        public ICollection<MachineAssignment> MachineAssignment { get; set; }
     }
 }

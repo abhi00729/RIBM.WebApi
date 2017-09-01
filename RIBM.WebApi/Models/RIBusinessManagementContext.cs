@@ -26,9 +26,9 @@ namespace RIBM.WebApi.Models
         public virtual DbSet<UserRole> UserRole { get; set; }
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<Vendor> Vendor { get; set; }
-        
+
         public RIBusinessManagementContext(DbContextOptions<RIBusinessManagementContext> options)
-            :base(options)
+            : base(options)
         { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -37,30 +37,35 @@ namespace RIBM.WebApi.Models
             {
                 entity.Property(e => e.ActivityName)
                     .IsRequired()
-                    .HasColumnType("varchar(100)");
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.ActivityUrl).HasColumnType("varchar(500)");
+                entity.Property(e => e.ActivityUrl)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.EntryDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("getdate()");
+                    .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.ImagePath).HasColumnType("varchar(100)");
+                entity.Property(e => e.ImagePath)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.IsActive).HasDefaultValueSql("1");
+                entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.UpdateDate).HasColumnType("datetime");
 
                 entity.HasOne(d => d.EntryUser)
                     .WithMany(p => p.ActivityEntryUser)
                     .HasForeignKey(d => d.EntryUserId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Activity_EntryUserId_Users_Id");
 
                 entity.HasOne(d => d.Module)
                     .WithMany(p => p.Activity)
                     .HasForeignKey(d => d.ModuleId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Activity_ModuleId_Module_Id");
 
                 entity.HasOne(d => d.UpdateUser)
@@ -73,26 +78,26 @@ namespace RIBM.WebApi.Models
             {
                 entity.Property(e => e.EntryDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("getdate()");
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.UpdateDate).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Activity)
                     .WithMany(p => p.ActivityPermission)
                     .HasForeignKey(d => d.ActivityId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ActivityPermission_ActivityId_Activity_Id");
 
                 entity.HasOne(d => d.EntryUser)
                     .WithMany(p => p.ActivityPermissionEntryUser)
                     .HasForeignKey(d => d.EntryUserId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ActivityPermission_EntryUserId_Users_Id");
 
                 entity.HasOne(d => d.Permission)
                     .WithMany(p => p.ActivityPermission)
                     .HasForeignKey(d => d.PermissionId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ActivityPermission_PermissionId_Permission_Id");
 
                 entity.HasOne(d => d.UpdateUser)
@@ -105,26 +110,27 @@ namespace RIBM.WebApi.Models
             {
                 entity.Property(e => e.CityName)
                     .IsRequired()
-                    .HasColumnType("varchar(500)");
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.EntryDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("getdate()");
+                    .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.IsActive).HasDefaultValueSql("1");
+                entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.UpdateDate).HasColumnType("datetime");
 
                 entity.HasOne(d => d.EntryUser)
                     .WithMany(p => p.CityEntryUser)
                     .HasForeignKey(d => d.EntryUserId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_City_EntryUserId_Users_Id");
 
                 entity.HasOne(d => d.State)
                     .WithMany(p => p.City)
                     .HasForeignKey(d => d.StateId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_City_StateId_State_Id");
 
                 entity.HasOne(d => d.UpdateUser)
@@ -137,34 +143,40 @@ namespace RIBM.WebApi.Models
             {
                 entity.Property(e => e.CompanyName)
                     .IsRequired()
-                    .HasColumnType("varchar(500)");
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.EmailAddress).HasColumnType("varchar(250)");
+                entity.Property(e => e.EmailAddress)
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.EntryDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("getdate()");
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.FirstName)
                     .IsRequired()
-                    .HasColumnType("varchar(100)");
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.IsActive).HasDefaultValueSql("1");
+                entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.LastName)
                     .IsRequired()
-                    .HasColumnType("varchar(100)");
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.MobileNo)
                     .IsRequired()
-                    .HasColumnType("varchar(13)");
+                    .HasMaxLength(13)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.UpdateDate).HasColumnType("datetime");
 
                 entity.HasOne(d => d.EntryUser)
                     .WithMany(p => p.ClientEntryUser)
                     .HasForeignKey(d => d.EntryUserId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Client_EntryUserId_Users_Id");
 
                 entity.HasOne(d => d.UpdateUser)
@@ -175,27 +187,36 @@ namespace RIBM.WebApi.Models
 
             modelBuilder.Entity<ClientLocation>(entity =>
             {
-                entity.Property(e => e.Address).HasColumnType("varchar(500)");
+                entity.Property(e => e.Address)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.ContactPersonName)
                     .IsRequired()
-                    .HasColumnType("varchar(200)");
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.EmailAddress).HasColumnType("varchar(250)");
+                entity.Property(e => e.EmailAddress)
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.EntryDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("getdate()");
+                    .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.IsActive).HasDefaultValueSql("1");
+                entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
 
-                entity.Property(e => e.IsBillingAddress).HasDefaultValueSql("0");
+                entity.Property(e => e.IsBillingAddress).HasDefaultValueSql("((0))");
 
-                entity.Property(e => e.IsPrimary).HasDefaultValueSql("0");
+                entity.Property(e => e.IsPrimary).HasDefaultValueSql("((0))");
 
-                entity.Property(e => e.MobileNo).HasColumnType("varchar(13)");
+                entity.Property(e => e.MobileNo)
+                    .HasMaxLength(13)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.PinCode).HasColumnType("varchar(10)");
+                entity.Property(e => e.PinCode)
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.UpdateDate).HasColumnType("datetime");
 
@@ -207,13 +228,13 @@ namespace RIBM.WebApi.Models
                 entity.HasOne(d => d.Client)
                     .WithMany(p => p.ClientLocation)
                     .HasForeignKey(d => d.ClientId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ClientLocation_ClientId_Client_Id");
 
                 entity.HasOne(d => d.EntryUser)
                     .WithMany(p => p.ClientLocationEntryUser)
                     .HasForeignKey(d => d.EntryUserId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ClientLocation_EntryUserId_Users_Id");
 
                 entity.HasOne(d => d.State)
@@ -229,33 +250,72 @@ namespace RIBM.WebApi.Models
 
             modelBuilder.Entity<Employee>(entity =>
             {
-                entity.Property(e => e.Address).HasColumnType("varchar(500)");
+                entity.Property(e => e.AadharCardNumber)
+                    .HasMaxLength(15)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.Dob)
-                    .HasColumnName("DOB")
-                    .HasColumnType("datetime");
+                entity.Property(e => e.Address)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.EmailAddress).HasColumnType("varchar(100)");
+                entity.Property(e => e.BirthDate).HasColumnType("datetime");
+
+                entity.Property(e => e.EmailAddress)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.EntryDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("getdate()");
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.Epfnumber)
+                    .HasColumnName("EPFNumber")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Esicnumber)
+                    .HasColumnName("ESICNumber")
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.FirstName)
                     .IsRequired()
-                    .HasColumnType("varchar(100)");
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.IsActive).HasDefaultValueSql("1");
+                entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.JoiningDate).HasColumnType("date");
 
                 entity.Property(e => e.LastName)
                     .IsRequired()
-                    .HasColumnType("varchar(100)");
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.LeavingDate).HasColumnType("date");
+
+                entity.Property(e => e.LicenceExpiryDate).HasColumnType("date");
+
+                entity.Property(e => e.LicenceNumber)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.LicenceType)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Location)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.MobileNo)
                     .IsRequired()
-                    .HasColumnType("varchar(13)");
+                    .HasMaxLength(13)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.PinCode).HasColumnType("varchar(10)");
+                entity.Property(e => e.PinCode)
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.UpdateDate).HasColumnType("datetime");
 
@@ -267,7 +327,7 @@ namespace RIBM.WebApi.Models
                 entity.HasOne(d => d.EntryUser)
                     .WithMany(p => p.EmployeeEntryUser)
                     .HasForeignKey(d => d.EntryUserId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Employee_EntryUserId_Users_Id");
 
                 entity.HasOne(d => d.State)
@@ -283,58 +343,85 @@ namespace RIBM.WebApi.Models
 
             modelBuilder.Entity<Machine>(entity =>
             {
-                entity.Property(e => e.AirFilterNumber).HasColumnType("varchar(100)");
+                entity.Property(e => e.AirFilterNumber)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Code)
                     .IsRequired()
-                    .HasColumnType("varchar(10)");
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.Descrip).HasColumnType("varchar(100)");
+                entity.Property(e => e.Descrip)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.DieselFilterNumber).HasColumnType("varchar(100)");
+                entity.Property(e => e.DieselFilterNumber)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.EngineMotorNumber).HasColumnType("varchar(100)");
+                entity.Property(e => e.EngineMotorNumber)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.EngineSerialNumber).HasColumnType("varchar(100)");
+                entity.Property(e => e.EngineSerialNumber)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.EntryDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("getdate()");
+                    .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.HeadgasKitNotch).HasColumnType("varchar(100)");
+                entity.Property(e => e.HeadgasKitNotch)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.HydrolicFilterNumber).HasColumnType("varchar(100)");
+                entity.Property(e => e.HydrolicFilterNumber)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.InsuranceDetails).HasColumnType("varchar(500)");
+                entity.Property(e => e.InsuranceDetails)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.InsuranceEndDate).HasColumnType("datetime");
 
                 entity.Property(e => e.InsuranceStartDate).HasColumnType("datetime");
 
-                entity.Property(e => e.IsActive).HasDefaultValueSql("1");
+                entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
 
-                entity.Property(e => e.MachineSerialNo).HasColumnType("varchar(100)");
+                entity.Property(e => e.MachineSerialNo)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.Model).HasColumnType("varchar(100)");
+                entity.Property(e => e.Model)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.OilFilterNumber).HasColumnType("varchar(100)");
+                entity.Property(e => e.OilFilterNumber)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.StarterMotarTeeth).HasColumnType("varchar(100)");
+                entity.Property(e => e.StarterMotarTeeth)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.TyreNumber).HasColumnType("varchar(100)");
+                entity.Property(e => e.TyreNumber)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.UpdateDate).HasColumnType("datetime");
 
                 entity.HasOne(d => d.EntryUser)
                     .WithMany(p => p.MachineEntryUser)
                     .HasForeignKey(d => d.EntryUserId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Machine_EntryUserId_Users_Id");
 
                 entity.HasOne(d => d.MachineType)
                     .WithMany(p => p.Machine)
                     .HasForeignKey(d => d.MachineTypeId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Machine_MachineTypeId_MachineType_Id");
 
                 entity.HasOne(d => d.UpdateUser)
@@ -345,31 +432,33 @@ namespace RIBM.WebApi.Models
 
             modelBuilder.Entity<MachineAssignment>(entity =>
             {
-                entity.Property(e => e.BaseCharges).HasColumnType("numeric");
+                entity.Property(e => e.BaseCharges).HasColumnType("numeric(10, 2)");
 
                 entity.Property(e => e.ContractEndDate).HasColumnType("datetime");
 
                 entity.Property(e => e.ContractStartDate).HasColumnType("datetime");
 
-                entity.Property(e => e.DeMobilizationCharges).HasColumnType("numeric");
+                entity.Property(e => e.DeMobilizationCharges).HasColumnType("numeric(10, 2)");
 
                 entity.Property(e => e.EntryDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("getdate()");
+                    .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.ExtraOperatorRequiredCharges).HasColumnType("numeric");
+                entity.Property(e => e.ExtraOperatorRequiredCharges).HasColumnType("numeric(10, 2)");
 
-                entity.Property(e => e.IsActive).HasDefaultValueSql("1");
+                entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
 
-                entity.Property(e => e.LoadingUnloadingCharges).HasColumnType("numeric");
+                entity.Property(e => e.LoadingUnloadingCharges).HasColumnType("numeric(10, 2)");
 
-                entity.Property(e => e.MobilizationCharges).HasColumnType("numeric");
+                entity.Property(e => e.MobilizationCharges).HasColumnType("numeric(10, 2)");
 
-                entity.Property(e => e.Notes).HasColumnType("varchar(500)");
+                entity.Property(e => e.Notes)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.OvertimeCharges).HasColumnType("numeric");
+                entity.Property(e => e.OvertimeCharges).HasColumnType("numeric(10, 2)");
 
-                entity.Property(e => e.OvertimeChargesPerHour).HasColumnType("numeric");
+                entity.Property(e => e.OvertimeChargesPerHour).HasColumnType("numeric(10, 2)");
 
                 entity.Property(e => e.PaymentTerms)
                     .IsRequired()
@@ -380,31 +469,31 @@ namespace RIBM.WebApi.Models
                 entity.HasOne(d => d.Client)
                     .WithMany(p => p.MachineAssignment)
                     .HasForeignKey(d => d.ClientId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_MachineAssignment_ClientId_Client_Id");
 
                 entity.HasOne(d => d.ClientLocation)
                     .WithMany(p => p.MachineAssignment)
                     .HasForeignKey(d => d.ClientLocationId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_MachineAssignment_ClientLocationId_ClientLocation_Id");
 
                 entity.HasOne(d => d.EntryUser)
                     .WithMany(p => p.MachineAssignmentEntryUser)
                     .HasForeignKey(d => d.EntryUserId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_MachineAssignment_EntryUserId_Users_Id");
 
                 entity.HasOne(d => d.Machine)
                     .WithMany(p => p.MachineAssignment)
                     .HasForeignKey(d => d.MachineId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_MachineAssignment_MachineId_Machine_Id");
 
                 entity.HasOne(d => d.MachineStatus)
                     .WithMany(p => p.MachineAssignment)
                     .HasForeignKey(d => d.MachineStatusId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_MachineAssignment_MachineStatusId_MachineStatus_Id");
 
                 entity.HasOne(d => d.UpdateUser)
@@ -417,20 +506,21 @@ namespace RIBM.WebApi.Models
             {
                 entity.Property(e => e.EntryDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("getdate()");
+                    .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.IsActive).HasDefaultValueSql("1");
+                entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.MachineStatusName)
                     .IsRequired()
-                    .HasColumnType("varchar(100)");
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.UpdateDate).HasColumnType("datetime");
 
                 entity.HasOne(d => d.EntryUser)
                     .WithMany(p => p.MachineStatusEntryUser)
                     .HasForeignKey(d => d.EntryUserId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_MachineStatus_EntryUserId_Users_Id");
 
                 entity.HasOne(d => d.UpdateUser)
@@ -443,20 +533,21 @@ namespace RIBM.WebApi.Models
             {
                 entity.Property(e => e.EntryDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("getdate()");
+                    .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.IsActive).HasDefaultValueSql("1");
+                entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.MachineTypeName)
                     .IsRequired()
-                    .HasColumnType("varchar(100)");
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.UpdateDate).HasColumnType("datetime");
 
                 entity.HasOne(d => d.EntryUser)
                     .WithMany(p => p.MachineTypeEntryUser)
                     .HasForeignKey(d => d.EntryUserId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_MachineType_EntryUserId_Users_Id");
 
                 entity.HasOne(d => d.UpdateUser)
@@ -469,20 +560,21 @@ namespace RIBM.WebApi.Models
             {
                 entity.Property(e => e.EntryDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("getdate()");
+                    .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.IsActive).HasDefaultValueSql("1");
+                entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.ModuleName)
                     .IsRequired()
-                    .HasColumnType("varchar(100)");
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.UpdateDate).HasColumnType("datetime");
 
                 entity.HasOne(d => d.EntryUser)
                     .WithMany(p => p.ModuleEntryUser)
                     .HasForeignKey(d => d.EntryUserId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Module_EntryUserId_Users_Id");
 
                 entity.HasOne(d => d.UpdateUser)
@@ -495,20 +587,21 @@ namespace RIBM.WebApi.Models
             {
                 entity.Property(e => e.EntryDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("getdate()");
+                    .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.IsActive).HasDefaultValueSql("1");
+                entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.PermissionName)
                     .IsRequired()
-                    .HasColumnType("varchar(100)");
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.UpdateDate).HasColumnType("datetime");
 
                 entity.HasOne(d => d.EntryUser)
                     .WithMany(p => p.PermissionEntryUser)
                     .HasForeignKey(d => d.EntryUserId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Permission_EntryUserId_Users_Id");
 
                 entity.HasOne(d => d.UpdateUser)
@@ -521,20 +614,21 @@ namespace RIBM.WebApi.Models
             {
                 entity.Property(e => e.EntryDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("getdate()");
+                    .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.IsActive).HasDefaultValueSql("1");
+                entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.PermissionTypeName)
                     .IsRequired()
-                    .HasColumnType("varchar(100)");
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.UpdateDate).HasColumnType("datetime");
 
                 entity.HasOne(d => d.EntryUser)
                     .WithMany(p => p.PermissionTypeEntryUser)
                     .HasForeignKey(d => d.EntryUserId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PermissionType_EntryUserId_Users_Id");
 
                 entity.HasOne(d => d.UpdateUser)
@@ -547,20 +641,21 @@ namespace RIBM.WebApi.Models
             {
                 entity.Property(e => e.EntryDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("getdate()");
+                    .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.IsActive).HasDefaultValueSql("1");
+                entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.RoleName)
                     .IsRequired()
-                    .HasColumnType("varchar(100)");
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.UpdateDate).HasColumnType("datetime");
 
                 entity.HasOne(d => d.EntryUser)
                     .WithMany(p => p.RoleEntryUser)
                     .HasForeignKey(d => d.EntryUserId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Role_EntryUserId_Users_Id");
 
                 entity.HasOne(d => d.UpdateUser)
@@ -573,38 +668,38 @@ namespace RIBM.WebApi.Models
             {
                 entity.Property(e => e.EntryDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("getdate()");
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.UpdateDate).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Activity)
                     .WithMany(p => p.RolePermission)
                     .HasForeignKey(d => d.ActivityId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_RolePermission_ActivityId_Activity_Id");
 
                 entity.HasOne(d => d.EntryUser)
                     .WithMany(p => p.RolePermissionEntryUser)
                     .HasForeignKey(d => d.EntryUserId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_RolePermission_EntryUserId_Users_Id");
 
                 entity.HasOne(d => d.Permission)
                     .WithMany(p => p.RolePermission)
                     .HasForeignKey(d => d.PermissionId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_RolePermission_PermissionId_Permission_Id");
 
                 entity.HasOne(d => d.PermissionType)
                     .WithMany(p => p.RolePermission)
                     .HasForeignKey(d => d.PermissionTypeId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_RolePermission_PermissionTypeId_PermissionType_Id");
 
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.RolePermission)
                     .HasForeignKey(d => d.RoleId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_RolePermission_RoleId_Role_Id");
 
                 entity.HasOne(d => d.UpdateUser)
@@ -617,20 +712,21 @@ namespace RIBM.WebApi.Models
             {
                 entity.Property(e => e.EntryDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("getdate()");
+                    .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.IsActive).HasDefaultValueSql("1");
+                entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.StateName)
                     .IsRequired()
-                    .HasColumnType("varchar(500)");
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.UpdateDate).HasColumnType("datetime");
 
                 entity.HasOne(d => d.EntryUser)
                     .WithMany(p => p.StateEntryUser)
                     .HasForeignKey(d => d.EntryUserId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_State_EntryUserId_Users_Id");
 
                 entity.HasOne(d => d.UpdateUser)
@@ -643,32 +739,32 @@ namespace RIBM.WebApi.Models
             {
                 entity.Property(e => e.EntryDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("getdate()");
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.UpdateDate).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Activity)
                     .WithMany(p => p.UserPermission)
                     .HasForeignKey(d => d.ActivityId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_UserPermission_ActivityId_Activity_Id");
 
                 entity.HasOne(d => d.EntryUser)
                     .WithMany(p => p.UserPermissionEntryUser)
                     .HasForeignKey(d => d.EntryUserId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_UserPermission_EntryUserId_Users_Id");
 
                 entity.HasOne(d => d.Permission)
                     .WithMany(p => p.UserPermission)
                     .HasForeignKey(d => d.PermissionId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_UserPermission_PermissionId_Permission_Id");
 
                 entity.HasOne(d => d.PermissionType)
                     .WithMany(p => p.UserPermission)
                     .HasForeignKey(d => d.PermissionTypeId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_UserPermission_PermissionTypeId_PermissionType_Id");
 
                 entity.HasOne(d => d.UpdateUser)
@@ -679,7 +775,7 @@ namespace RIBM.WebApi.Models
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.UserPermissionUser)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_UserPermission_UserId_User_Id");
             });
 
@@ -687,20 +783,20 @@ namespace RIBM.WebApi.Models
             {
                 entity.Property(e => e.EntryDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("getdate()");
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.UpdateDate).HasColumnType("datetime");
 
                 entity.HasOne(d => d.EntryUser)
                     .WithMany(p => p.UserRoleEntryUser)
                     .HasForeignKey(d => d.EntryUserId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_UserRole_EntryUserId_Users_Id");
 
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.UserRole)
                     .HasForeignKey(d => d.RoleId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_UserRole_RoleId_Role_Id");
 
                 entity.HasOne(d => d.UpdateUser)
@@ -711,7 +807,7 @@ namespace RIBM.WebApi.Models
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.UserRoleUser)
                     .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_UserRole_UserId_Users_Id");
             });
 
@@ -719,19 +815,21 @@ namespace RIBM.WebApi.Models
             {
                 entity.Property(e => e.EntryDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("getdate()");
+                    .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.IsActive).HasDefaultValueSql("1");
+                entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.Password)
                     .IsRequired()
-                    .HasColumnType("varchar(50)");
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.UpdateDate).HasColumnType("datetime");
 
                 entity.Property(e => e.UserName)
                     .IsRequired()
-                    .HasColumnType("varchar(100)");
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
                 entity.HasOne(d => d.UpdateUser)
                     .WithMany(p => p.InverseUpdateUser)
@@ -741,33 +839,43 @@ namespace RIBM.WebApi.Models
 
             modelBuilder.Entity<Vendor>(entity =>
             {
-                entity.Property(e => e.Address).HasColumnType("varchar(500)");
+                entity.Property(e => e.Address)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.CompanyName)
                     .IsRequired()
-                    .HasColumnType("varchar(500)");
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.EmailAddress).HasColumnType("varchar(250)");
+                entity.Property(e => e.EmailAddress)
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.EntryDate)
                     .HasColumnType("datetime")
-                    .HasDefaultValueSql("getdate()");
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.FirstName)
                     .IsRequired()
-                    .HasColumnType("varchar(100)");
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.IsActive).HasDefaultValueSql("1");
+                entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
 
                 entity.Property(e => e.LastName)
                     .IsRequired()
-                    .HasColumnType("varchar(100)");
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.MobileNo)
                     .IsRequired()
-                    .HasColumnType("varchar(13)");
+                    .HasMaxLength(13)
+                    .IsUnicode(false);
 
-                entity.Property(e => e.PinCode).HasColumnType("varchar(10)");
+                entity.Property(e => e.PinCode)
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.UpdateDate).HasColumnType("datetime");
 
@@ -779,7 +887,7 @@ namespace RIBM.WebApi.Models
                 entity.HasOne(d => d.EntryUser)
                     .WithMany(p => p.VendorEntryUser)
                     .HasForeignKey(d => d.EntryUserId)
-                    .OnDelete(DeleteBehavior.Restrict)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Vendor_EntryUserId_Users_Id");
 
                 entity.HasOne(d => d.State)

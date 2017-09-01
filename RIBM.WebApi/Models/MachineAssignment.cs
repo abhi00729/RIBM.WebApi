@@ -27,11 +27,11 @@ namespace RIBM.WebApi.Models
         public int? UpdateUserId { get; set; }
         public DateTime? UpdateDate { get; set; }
 
-        public virtual Client Client { get; set; }
-        public virtual ClientLocation ClientLocation { get; set; }
-        public virtual Users EntryUser { get; set; }
-        public virtual Machine Machine { get; set; }
-        public virtual MachineStatus MachineStatus { get; set; }
-        public virtual Users UpdateUser { get; set; }
+        public Client Client { get; set; }
+        public ClientLocation ClientLocation { get; set; }
+        public Users EntryUser { get; set; }
+        public Machine Machine { get; set; }
+        public MachineStatus MachineStatus { get; set; }
+        public Users UpdateUser { get; set; }
     }
 }
