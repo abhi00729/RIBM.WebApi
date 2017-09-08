@@ -36,13 +36,41 @@ namespace RIBM.WebApi.Controllers.Masters
                 return BadRequest(ModelState);
             }
 
-            var employee = await _context.Employee.SingleOrDefaultAsync(m => m.Id == id);
+            var employee = await _context.Employee.Where(m => m.Id == id).Select(m => new
+            {
+                Id = m.Id,
+                FirstName = m.FirstName,
+                LastName = m.LastName,
+                MobileNo = m.MobileNo,
+                EmailAddress = m.EmailAddress,
+                BirthDate = m.BirthDate,
+                Address = m.Address,
+                StateId = m.StateId,
+                CityId = m.CityId,
+                PinCode = m.PinCode,
+                AadharCardNumber = m.AadharCardNumber,
+                LicenceNumber = m.LicenceNumber,
+                LicenceExpiryDate = m.LicenceExpiryDate,
+                LicenceType = m.LicenceType,
+                Esicnumber = m.Esicnumber,
+                Epfnumber = m.Epfnumber,
+                JoiningDate = m.JoiningDate,
+                LeavingDate = m.LeavingDate,
+                Location = m.Location,
+                IsActive = m.IsActive,
+                EntryUserId = m.EntryUserId,
+                EntryDate = m.EntryDate,
+                UpdateUserId = m.UpdateUserId,
+                UpdateDate = m.UpdateDate,
+                CityName = _context.City.Where(c => c.Id == m.StateId).FirstOrDefault().CityName,
+                StateName = _context.State.Where(s => s.Id == m.StateId).FirstOrDefault().StateName
+            }).SingleOrDefaultAsync();
 
             if (employee == null)
             {
                 return NotFound();
             }
-
+            
             return Ok(employee);
         }
 

@@ -36,24 +36,25 @@ namespace RIBM.WebApi.Controllers.Masters
                 return BadRequest(ModelState);
             }
 
-            var client = from c in _context.Client
-                         where c.Id == id
-                         select new Client()
-                         {
-                             Id = c.Id,
-                             CompanyName = c.CompanyName,
-                             FirstName = c.FirstName,
-                             LastName = c.LastName,
-                             MobileNo = c.MobileNo,
-                             EmailAddress = c.EmailAddress,
-                             IsActive = c.IsActive,
-                             EntryUserId = c.EntryUserId,
-                             EntryDate = c.EntryDate,
-                             UpdateUserId = c.UpdateUserId,
-                             UpdateDate = c.UpdateDate,
-                             ClientLocation = _context.ClientLocation.Where(cl => cl.ClientId == id).ToList(),
-                             MachineAssignment = _context.MachineAssignment.Where(ma => ma.ClientId == id).ToList()
-                         };
+            var clientLocation = await _context.ClientLocation.Where(cl => cl.ClientId == id).ToListAsync();
+            var machineAssignment = await _context.MachineAssignment.Where(ma => ma.ClientId == id).ToListAsync();
+            
+            var client = await _context.Client.Where(c => c.Id == id).Select(c => new
+            {
+                Id = c.Id,
+                CompanyName = c.CompanyName,
+                FirstName = c.FirstName,
+                LastName = c.LastName,
+                MobileNo = c.MobileNo,
+                EmailAddress = c.EmailAddress,
+                IsActive = c.IsActive,
+                EntryUserId = c.EntryUserId,
+                EntryDate = c.EntryDate,
+                UpdateUserId = c.UpdateUserId,
+                UpdateDate = c.UpdateDate,
+                ClientLocation = clientLocation,
+                MachineAssignment = machineAssignment
+            }).SingleOrDefaultAsync();
 
             if (client == null)
             {
