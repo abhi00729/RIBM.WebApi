@@ -22,9 +22,39 @@ namespace RIBM.WebApi.Controllers.Masters
 
         // GET: api/Employees
         [HttpGet]
-        public IEnumerable<Employee> GetEmployee()
+        public IEnumerable<EmployeeList> GetEmployee()
         {
-            return _context.Employee;
+            var employees = _context.Employee.Select(m => new EmployeeList
+            {
+                Id = m.Id,
+                FirstName = m.FirstName,
+                LastName = m.LastName,
+                MobileNo = m.MobileNo,
+                EmailAddress = m.EmailAddress,
+                BirthDate = m.BirthDate,
+                Address = m.Address,
+                StateId = m.StateId,
+                CityId = m.CityId,
+                PinCode = m.PinCode,
+                AadharCardNumber = m.AadharCardNumber,
+                LicenceNumber = m.LicenceNumber,
+                LicenceExpiryDate = m.LicenceExpiryDate,
+                LicenceType = m.LicenceType,
+                Esicnumber = m.Esicnumber,
+                Epfnumber = m.Epfnumber,
+                JoiningDate = m.JoiningDate,
+                LeavingDate = m.LeavingDate,
+                Location = m.Location,
+                IsActive = m.IsActive,
+                EntryUserId = m.EntryUserId,
+                EntryDate = m.EntryDate,
+                UpdateUserId = m.UpdateUserId,
+                UpdateDate = m.UpdateDate,
+                CityName = _context.City.Where(c => c.Id == m.StateId).FirstOrDefault().CityName,
+                StateName = _context.State.Where(s => s.Id == m.StateId).FirstOrDefault().StateName
+            }).ToList();
+            
+            return employees;
         }
 
         // GET: api/Employees/5
