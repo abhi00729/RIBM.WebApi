@@ -22,9 +22,31 @@ namespace RIBM.WebApi.Controllers.Masters
 
         // GET: api/ClientLocations
         [HttpGet]
-        public IEnumerable<ClientLocation> GetClientLocation()
+        public IEnumerable<ClientLocationViewModel> GetClientLocation()
         {
-            return _context.ClientLocation;
+            var clientLocations = _context.ClientLocation.Select(cl => new ClientLocationViewModel
+            {
+                Id = cl.Id,
+                ClientId = cl.ClientId,
+                ContactPersonName = cl.ContactPersonName,
+                MobileNo = cl.MobileNo,
+                EmailAddress = cl.EmailAddress,
+                Address = cl.Address,
+                StateId = cl.StateId,
+                CityId = cl.CityId,
+                PinCode = cl.PinCode,
+                IsPrimary = cl.IsPrimary,
+                IsBillingAddress = cl.IsBillingAddress,
+                IsActive = cl.IsActive,
+                EntryUserId = cl.EntryUserId,
+                EntryDate = cl.EntryDate,
+                UpdateUserId = cl.UpdateUserId,
+                UpdateDate = cl.UpdateDate,
+                CityName = _context.City.Where(c => c.Id == cl.CityId).FirstOrDefault().CityName,
+                StateName = _context.State.Where(s => s.Id == cl.StateId).FirstOrDefault().StateName
+            }).ToList();
+
+            return clientLocations;
         }
 
         // GET: api/ClientLocations/5
@@ -56,7 +78,7 @@ namespace RIBM.WebApi.Controllers.Masters
                 EntryDate = cl.EntryDate,
                 UpdateUserId = cl.UpdateUserId,
                 UpdateDate = cl.UpdateDate,
-                CityName = _context.City.Where(c => c.Id == cl.StateId).FirstOrDefault().CityName,
+                CityName = _context.City.Where(c => c.Id == cl.CityId).FirstOrDefault().CityName,
                 StateName = _context.State.Where(s => s.Id == cl.StateId).FirstOrDefault().StateName,
                 MachineAssignment = machineAssignment
             }).SingleOrDefaultAsync();

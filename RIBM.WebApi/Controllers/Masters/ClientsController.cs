@@ -35,11 +35,32 @@ namespace RIBM.WebApi.Controllers.Masters
             {
                 return BadRequest(ModelState);
             }
-
-            var clientLocation = await _context.ClientLocation.Where(cl => cl.ClientId == id).ToListAsync();
-            var machineAssignment = await _context.MachineAssignment.Where(ma => ma.ClientId == id).ToListAsync();
             
-            var client = await _context.Client.Where(c => c.Id == id).Select(c => new
+            var clientLocations = await _context.ClientLocation.Where(m => m.ClientId == id).Select(cl => new ClientLocationViewModel
+            {
+                Id = cl.Id,
+                ClientId = cl.ClientId,
+                ContactPersonName = cl.ContactPersonName,
+                MobileNo = cl.MobileNo,
+                EmailAddress = cl.EmailAddress,
+                Address = cl.Address,
+                StateId = cl.StateId,
+                CityId = cl.CityId,
+                PinCode = cl.PinCode,
+                IsPrimary = cl.IsPrimary,
+                IsBillingAddress = cl.IsBillingAddress,
+                IsActive = cl.IsActive,
+                EntryUserId = cl.EntryUserId,
+                EntryDate = cl.EntryDate,
+                UpdateUserId = cl.UpdateUserId,
+                UpdateDate = cl.UpdateDate,
+                CityName = _context.City.Where(c => c.Id == cl.CityId).FirstOrDefault().CityName,
+                StateName = _context.State.Where(s => s.Id == cl.StateId).FirstOrDefault().StateName
+            }).ToListAsync();
+
+            var machineAssignments = await _context.MachineAssignment.Where(ma => ma.ClientId == id).ToListAsync();
+            
+            var client = await _context.Client.Where(c => c.Id == id).Select(c => new ClientViewModel
             {
                 Id = c.Id,
                 CompanyName = c.CompanyName,
@@ -52,8 +73,8 @@ namespace RIBM.WebApi.Controllers.Masters
                 EntryDate = c.EntryDate,
                 UpdateUserId = c.UpdateUserId,
                 UpdateDate = c.UpdateDate,
-                ClientLocation = clientLocation,
-                MachineAssignment = machineAssignment
+                ClientLocation = clientLocations,
+                MachineAssignment = machineAssignments
             }).SingleOrDefaultAsync();
 
             if (client == null)

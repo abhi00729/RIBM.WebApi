@@ -22,9 +22,9 @@ namespace RIBM.WebApi.Controllers.Masters
 
         // GET: api/Employees
         [HttpGet]
-        public IEnumerable<EmployeeList> GetEmployee()
+        public IEnumerable<EmployeeViewModel> GetEmployee()
         {
-            var employees = _context.Employee.Select(m => new EmployeeList
+            var employees = _context.Employee.Select(m => new EmployeeViewModel
             {
                 Id = m.Id,
                 FirstName = m.FirstName,
@@ -50,7 +50,7 @@ namespace RIBM.WebApi.Controllers.Masters
                 EntryDate = m.EntryDate,
                 UpdateUserId = m.UpdateUserId,
                 UpdateDate = m.UpdateDate,
-                CityName = _context.City.Where(c => c.Id == m.StateId).FirstOrDefault().CityName,
+                CityName = _context.City.Where(c => c.Id == m.CityId).FirstOrDefault().CityName,
                 StateName = _context.State.Where(s => s.Id == m.StateId).FirstOrDefault().StateName
             }).ToList();
             

@@ -22,9 +22,30 @@ namespace RIBM.WebApi.Controllers.Masters
 
         // GET: api/Vendors
         [HttpGet]
-        public IEnumerable<Vendor> GetVendor()
+        public IEnumerable<VendorViewModel> GetVendor()
         {
-            return _context.Vendor;
+            var vendors = _context.Vendor.Select(m => new VendorViewModel
+            {
+                Id = m.Id,
+                CompanyName = m.CompanyName,
+                FirstName = m.FirstName,
+                LastName = m.LastName,
+                MobileNo = m.MobileNo,
+                EmailAddress = m.EmailAddress,
+                Address = m.Address,
+                StateId = m.StateId,
+                CityId = m.CityId,
+                PinCode = m.PinCode,
+                IsActive = m.IsActive,
+                EntryUserId = m.EntryUserId,
+                EntryDate = m.EntryDate,
+                UpdateUserId = m.UpdateUserId,
+                UpdateDate = m.UpdateDate,
+                CityName = _context.City.Where(c => c.Id == m.CityId).FirstOrDefault().CityName,
+                StateName = _context.State.Where(s => s.Id == m.StateId).FirstOrDefault().StateName
+            }).ToList();
+
+            return vendors;
         }
 
         // GET: api/Vendors/5

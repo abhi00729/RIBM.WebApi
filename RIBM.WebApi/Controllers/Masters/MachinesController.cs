@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RIBM.WebApi.Models;
+using RIBM.WebApi.ViewModels;
 
 namespace RIBM.WebApi.Controllers.Masters
 {
@@ -22,9 +23,38 @@ namespace RIBM.WebApi.Controllers.Masters
 
         // GET: api/Machines
         [HttpGet]
-        public IEnumerable<Machine> GetMachine()
+        public IEnumerable<MachineViewModel> GetMachine()
         {
-            return _context.Machine;
+            var machines = _context.Machine.Select(m => new MachineViewModel()
+            {
+                Id = m.Id,
+                MachineTypeId = m.MachineTypeId,
+                Code = m.Code,
+                Descrip = m.Descrip,
+                Model = m.Model,
+                MachineSerialNo = m.MachineSerialNo,
+                ManufactureYear = m.ManufactureYear,
+                EngineSerialNumber = m.EngineSerialNumber,
+                EngineMotorNumber = m.EngineMotorNumber,
+                TyreNumber = m.TyreNumber,
+                StarterMotarTeeth = m.StarterMotarTeeth,
+                HeadgasKitNotch = m.HeadgasKitNotch,
+                DieselFilterNumber = m.DieselFilterNumber,
+                OilFilterNumber = m.OilFilterNumber,
+                HydrolicFilterNumber = m.HydrolicFilterNumber,
+                AirFilterNumber = m.AirFilterNumber,
+                InsuranceDetails = m.InsuranceDetails,
+                InsuranceStartDate = m.InsuranceStartDate,
+                InsuranceEndDate = m.InsuranceEndDate,
+                IsActive = m.IsActive,
+                EntryUserId = m.EntryUserId,
+                EntryDate = m.EntryDate,
+                UpdateUserId = m.UpdateUserId,
+                UpdateDate = m.UpdateDate,
+                MachineTypeName = _context.MachineType.SingleOrDefault(mt => mt.Id == m.MachineTypeId).MachineTypeName
+            }).ToList();
+
+            return machines;
         }
 
         // GET: api/Machines/5

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace RIBM.WebApi.Models
 {
-    public class EmployeeList
+    public class EmployeeViewModel
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
