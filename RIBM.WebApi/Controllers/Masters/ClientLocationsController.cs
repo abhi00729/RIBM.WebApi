@@ -58,9 +58,9 @@ namespace RIBM.WebApi.Controllers.Masters
                 return BadRequest(ModelState);
             }
 
-            var machineAssignment = await _context.MachineAssignment.Where(ma => ma.ClientId == id).ToListAsync();
+            var machineAssignment = await _context.MachineAssignment.Where(ma => ma.ClientLocationId == id).ToListAsync();
 
-            var clientLocation = await _context.ClientLocation.Where(m => m.ClientId == id).Select(cl => new
+            var clientLocation = await _context.ClientLocation.Where(m => m.Id == id).Select(cl => new
             {
                 Id = cl.Id,
                 ClientId = cl.ClientId,

@@ -10,7 +10,7 @@ namespace RIBM.WebApi.Models
         public string LastName { get; set; }
         public string MobileNo { get; set; }
         public string EmailAddress { get; set; }
-        public DateTime BirthDate { get; set; }
+        public DateTime? BirthDate { get; set; }
         public string Address { get; set; }
         public int? StateId { get; set; }
         public int? CityId { get; set; }
